@@ -10,7 +10,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
 
 DEPENDS = "glib-2.0"
 
-inherit gnomebase gtk-doc gettext upstream-version-is-even gobject-introspection
+inherit gnomebase gtk-doc gettext upstream-version-is-even
+
+GNOME_COMPRESS_TYPE = "xz"
 
 SRC_URI[archive.md5sum] = "5187b0972f4d3905f285540b31395e20"
 SRC_URI[archive.sha256sum] = "493a50f6c4a025f588d380a551ec277e070b28a82e63ef8e3c06b3ee7c1238f0"
@@ -18,4 +20,4 @@ SRC_URI[archive.sha256sum] = "493a50f6c4a025f588d380a551ec277e070b28a82e63ef8e3c
 BBCLASSEXTEND = "native"
 
 EXTRA_OECONF = "--disable-glibtest \
-               "
+                --disable-introspection"
