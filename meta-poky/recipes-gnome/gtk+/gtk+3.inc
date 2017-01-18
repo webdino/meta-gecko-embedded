@@ -10,7 +10,7 @@ DEPENDS = "glib-2.0 cairo pango atk jpeg libpng gdk-pixbuf \
 
 LICENSE = "LGPLv2 & LGPLv2+ & LGPLv2.1+"
 
-inherit autotools pkgconfig gtk-doc update-alternatives gtk-immodules-cache gsettings distro_features_check upstream-version-is-even gobject-introspection
+inherit autotools pkgconfig gtk-doc update-alternatives gtk-immodules-cache gsettings distro_features_check upstream-version-is-even
 ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
 
 # This should be in autotools.bbclass, but until something elses uses it putting
@@ -85,6 +85,11 @@ FILES_${PN}-dev += " \
                     ${bindir}/gtk-builder-convert \
                     ${bindir}/gtk-encode-symbolic-svg \
                     ${bindir}/gtk-builder-tool \
+                    "
+
+FILES_${PN}-dbg += " \
+                    ${libdir}/gtk-3.0/${LIBV}/.debug \
+                    ${libdir}/gtk-3.0/${LIBV}/*/.debug \
                     "
 
 GTKBASE_RRECOMMENDS ?= "liberation-fonts \
