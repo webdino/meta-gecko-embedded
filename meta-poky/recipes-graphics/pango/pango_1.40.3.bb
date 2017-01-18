@@ -11,7 +11,9 @@ LICENSE = "LGPLv2.0+"
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
 
-inherit gnomebase gtk-doc ptest-gnome upstream-version-is-even gobject-introspection
+inherit gnomebase gtk-doc upstream-version-is-even
+
+GNOME_COMPRESS_TYPE = "xz"
 
 SRC_URI += "file://run-ptest \
             file://0001-Drop-introspection-macros-from-acinclude.m4.patch \
@@ -21,6 +23,7 @@ SRC_URI[archive.md5sum] = "17c26720f5a862a12f7e1745e2f1d966"
 SRC_URI[archive.sha256sum] = "abba8b5ce728520c3a0f1535eab19eac3c14aeef7faa5aded90017ceac2711d3"
 
 DEPENDS = "glib-2.0 glib-2.0-native fontconfig freetype virtual/libiconv cairo harfbuzz"
+DEPENDS_class-native = "glib-2.0-native fontconfig-native freetype-native cairo-native harfbuzz-native"
 
 PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
 PACKAGECONFIG[x11] = "--with-xft,--without-xft,virtual/libx11 libxft"
