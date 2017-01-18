@@ -24,6 +24,7 @@ inherit autotools pkgconfig
 BBCLASSEXTEND = "native"
 
 DEPENDS = "expat libffi wayland-native"
+DEPENDS_class-native = "expat-native libffi-native"
 
 EXTRA_OECONF = "--disable-documentation --disable-scanner"
 
