@@ -45,7 +45,9 @@ PACKAGECONFIG ??= "${@bb.utils.contains("DISTRO_FEATURES", "x11", "x11", "", d)}
 PACKAGECONFIG[x11] = "--enable-x11-backend,--disable-x11-backend,at-spi2-atk fontconfig libx11 libxext libxcursor libxi libxdamage libxrandr libxrender libxcomposite libxfixes"
 # this is provided by oe-core patch that removes epoxy/gl dependency from a X11 build
 PACKAGECONFIG[opengl] = "--enable-opengl,--disable-opengl,libepoxy"
-PACKAGECONFIG[glx] = "--enable-glx,--disable-glx,,libgl"
+# TODO: It causes install errors of dependent softwares on OpenGL ES environment.
+# So we temporarily disable it until we resolve it.
+#PACKAGECONFIG[glx] = "--enable-glx,--disable-glx,,libgl"
 PACKAGECONFIG[wayland] = "--enable-wayland-backend,--disable-wayland-backend,wayland libxkbcommon virtual/mesa wayland-native"
 
 do_install_append() {
