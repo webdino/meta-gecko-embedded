@@ -8,7 +8,6 @@ SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+-${PV}.tar
            file://Do-not-try-to-initialize-GL-without-libGL.patch \
            file://0001-Add-disable-opengl-configure-option.patch \
            file://wayland-memfd-fallback.patch \
-           file://downgrade-xdg-shell.patch \
            file://disable-poitner-scale.patch \
           "
 
