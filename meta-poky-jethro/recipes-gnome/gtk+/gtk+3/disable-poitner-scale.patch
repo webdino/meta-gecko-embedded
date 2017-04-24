@@ -1,0 +1,15 @@
+diff -Nur gtk+-3.16.7-bak/gdk/wayland/gdkdevice-wayland.c gtk+-3.16.7/gdk/wayland/gdkdevice-wayland.c
+--- gtk+-3.16.7-bak/gdk/wayland/gdkdevice-wayland.c	2015-09-18 09:01:38.000000000 +0900
++++ gtk+-3.16.7/gdk/wayland/gdkdevice-wayland.c	2016-08-29 18:53:31.343235071 +0900
+@@ -1900,9 +1900,11 @@
+   device->current_output_scale = 1;
+   device->pointer_surface =
+     wl_compositor_create_surface (display_wayland->compositor);
++#if 0
+   wl_surface_add_listener (device->pointer_surface,
+                            &pointer_surface_listener,
+                            device);
++#endif
+ 
+   init_devices (device);
+ }
