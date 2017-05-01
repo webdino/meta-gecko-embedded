@@ -6,11 +6,11 @@ BUGTRACKER = "https://bugzilla.gnome.org/"
 SECTION = "libs"
 
 DEPENDS = "glib-2.0 cairo pango atk jpeg libpng gdk-pixbuf \
-           docbook-utils-native gdk-pixbuf-native"
+           gdk-pixbuf-native"
 
 LICENSE = "LGPLv2 & LGPLv2+ & LGPLv2.1+"
 
-inherit autotools pkgconfig gtk-doc update-alternatives gtk-immodules-cache gsettings distro_features_check upstream-version-is-even
+inherit autotools pkgconfig gtk-doc update-alternatives gtk-immodules-cache gsettings distro_features_check upstream-version-is-even gobject-introspection
 ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
 
 # This should be in autotools.bbclass, but until something elses uses it putting
@@ -31,7 +31,10 @@ EXTRA_OECONF += " \
                  --enable-modules \
                  --disable-cups \
                  --disable-colord \
-"
+                 WAYLAND_PROTOCOLS_SYSROOT_DIR=${STAGING_DIR}/${MACHINE} \
+                 ${@bb.utils.contains("DISTRO_FEATURES", "x11", "", "--disable-gtk-doc", d)} \
+                 "
+EXTRA_OECONF[vardepsexclude] = "MACHINE"
 
 do_compile_prepend() {
         export GIR_EXTRA_LIBS_PATH="${B}/gdk/.libs"
@@ -45,10 +48,8 @@ PACKAGECONFIG ??= "${@bb.utils.contains("DISTRO_FEATURES", "x11", "x11", "", d)}
 PACKAGECONFIG[x11] = "--enable-x11-backend,--disable-x11-backend,at-spi2-atk fontconfig libx11 libxext libxcursor libxi libxdamage libxrandr libxrender libxcomposite libxfixes"
 # this is provided by oe-core patch that removes epoxy/gl dependency from a X11 build
 PACKAGECONFIG[opengl] = "--enable-opengl,--disable-opengl,libepoxy"
-# TODO: It causes install errors of dependent softwares on OpenGL ES environment.
-# So we temporarily disable it until we resolve it.
-#PACKAGECONFIG[glx] = "--enable-glx,--disable-glx,,libgl"
-PACKAGECONFIG[wayland] = "--enable-wayland-backend,--disable-wayland-backend,wayland libxkbcommon virtual/mesa wayland-native"
+PACKAGECONFIG[glx] = "--enable-glx,--disable-glx,,libgl"
+PACKAGECONFIG[wayland] = "--enable-wayland-backend,--disable-wayland-backend,wayland wayland-protocols libxkbcommon virtual/mesa wayland-native"
 
 do_install_append() {
 	mv ${D}${bindir}/gtk-update-icon-cache ${D}${bindir}/gtk-update-icon-cache-3.0
@@ -78,6 +79,7 @@ FILES_${PN}_append = " ${bindir}/gtk-update-icon-cache-3.0 \
 FILES_${PN}-dev += " \
                     ${datadir}/gtk-3.0/gtkbuilder.rng \
                     ${datadir}/gtk-3.0/include \
+                    ${datadir}/gettext/its \
                     ${libdir}/gtk-3.0/include \
                     ${libdir}/gtk-3.0/${LIBV}/loaders/*.la \
                     ${libdir}/gtk-3.0/${LIBV}/immodules/*.la \
@@ -87,11 +89,7 @@ FILES_${PN}-dev += " \
                     ${bindir}/gtk-builder-convert \
                     ${bindir}/gtk-encode-symbolic-svg \
                     ${bindir}/gtk-builder-tool \
-                    "
-
-FILES_${PN}-dbg += " \
-                    ${libdir}/gtk-3.0/${LIBV}/.debug \
-                    ${libdir}/gtk-3.0/${LIBV}/*/.debug \
+                    ${bindir}/gtk-query-settings \
                     "
 
 GTKBASE_RRECOMMENDS ?= "liberation-fonts \
@@ -106,6 +104,7 @@ GTKGLIBC_RRECOMMENDS ?= "${GTKBASE_RRECOMMENDS} glibc-gconv-iso8859-1"
 
 RRECOMMENDS_${PN} = "${GTKBASE_RRECOMMENDS}"
 RRECOMMENDS_${PN}_libc-glibc = "${GTKGLIBC_RRECOMMENDS}"
+RDEPENDS_${PN}-dev += "${@bb.utils.contains("PACKAGECONFIG", "wayland", "wayland-protocols", "", d)}"
 
 PACKAGES_DYNAMIC += "^gtk3-immodule-.* ^gtk3-printbackend-.*"
 
@@ -129,4 +128,3 @@ python populate_packages_prepend () {
     if (d.getVar('DEBIAN_NAMES', True)):
         d.setVar(d.expand('PKG_${PN}'), '${MLPREFIX}libgtk-3.0')
 }
-
