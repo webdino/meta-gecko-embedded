@@ -10,7 +10,7 @@ DEPENDS = "glib-2.0 cairo pango atk jpeg libpng gdk-pixbuf \
 
 LICENSE = "LGPLv2 & LGPLv2+ & LGPLv2.1+"
 
-inherit autotools pkgconfig gtk-doc update-alternatives gtk-immodules-cache gsettings distro_features_check upstream-version-is-even gobject-introspection
+inherit autotools pkgconfig gtk-doc update-alternatives gtk-immodules-cache gsettings distro_features_check upstream-version-is-even
 ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
 
 # This should be in autotools.bbclass, but until something elses uses it putting
@@ -48,7 +48,7 @@ PACKAGECONFIG ??= "${@bb.utils.contains("DISTRO_FEATURES", "x11", "x11", "", d)}
 PACKAGECONFIG[x11] = "--enable-x11-backend,--disable-x11-backend,at-spi2-atk fontconfig libx11 libxext libxcursor libxi libxdamage libxrandr libxrender libxcomposite libxfixes"
 # this is provided by oe-core patch that removes epoxy/gl dependency from a X11 build
 PACKAGECONFIG[opengl] = "--enable-opengl,--disable-opengl,libepoxy"
-PACKAGECONFIG[glx] = "--enable-glx,--disable-glx,,libgl"
+#PACKAGECONFIG[glx] = "--enable-glx,--disable-glx,,libgl"
 PACKAGECONFIG[wayland] = "--enable-wayland-backend,--disable-wayland-backend,wayland wayland-protocols libxkbcommon virtual/mesa wayland-native"
 
 do_install_append() {
@@ -90,6 +90,11 @@ FILES_${PN}-dev += " \
                     ${bindir}/gtk-encode-symbolic-svg \
                     ${bindir}/gtk-builder-tool \
                     ${bindir}/gtk-query-settings \
+                    "
+
+FILES_${PN}-dbg += " \
+                    ${libdir}/gtk-3.0/${LIBV}/.debug \
+                    ${libdir}/gtk-3.0/${LIBV}/*/.debug \
                     "
 
 GTKBASE_RRECOMMENDS ?= "liberation-fonts \
