@@ -18,8 +18,8 @@ index 429a703..e47f680 100644
  	if (ret)
  		goto err_add_fb;
  
--	fb->map = mmap(0, fb->size, PROT_WRITE,
-+	fb->map = mmap(0, fb->size, PROT_READ | PROT_WRITE,
+-	fb->map = mmap(NULL, fb->size, PROT_WRITE,
++	fb->map = mmap(NULL, fb->size, PROT_READ | PROT_WRITE,
  		       MAP_SHARED, b->drm.fd, map_arg.offset);
  	if (fb->map == MAP_FAILED)
  		goto err_add_fb;
