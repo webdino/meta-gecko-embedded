@@ -10,7 +10,7 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://COPYING;md5=b31d8f53b6aaf2b4985d7dd7810a70d1 \
                     file://src/wayland-server.c;endline=24;md5=b8e046164a766bb1ede8ba38e9dcd7ce"
 
-SRC_URI = "http://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz"
+SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz"
 SRC_URI[md5sum] = "e7751c38807c231afaba9d6b68f2a2b7"
 SRC_URI[sha256sum] = "4bf6e790aa6f50ab3825676282ecd75850ec9c4767af96ecb7127b1f3c3d60dc"
 
@@ -20,7 +20,7 @@ inherit autotools pkgconfig
 
 BBCLASSEXTEND = "native nativesdk"
 
-DEPENDS = "expat libffi wayland-native"
+DEPENDS = "expat libxml2 libffi wayland-native"
 
 EXTRA_OECONF = "--disable-documentation --with-host-scanner"
 
