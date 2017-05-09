@@ -27,7 +27,7 @@ inherit autotools pkgconfig useradd distro_features_check
 REQUIRED_DISTRO_FEATURES = "opengl"
 
 DEPENDS = "libxkbcommon gdk-pixbuf pixman cairo glib-2.0 jpeg"
-DEPENDS += "wayland libinput virtual/egl pango wayland-native"
+DEPENDS += "wayland wayland-protocols libinput virtual/egl pango wayland-native"
 
 EXTRA_OECONF = "--enable-setuid-install \
                 --enable-simple-clients \
@@ -109,6 +109,7 @@ FILES_${PN}-examples = "${bindir}/*"
 RDEPENDS_${PN} += " xkeyboard-config"
 RDEPENDS_${PN} += " libgles2"
 RRECOMMENDS_${PN} = "liberation-fonts"
+RRECOMMENDS_${PN}-dev += "wayland-protocols"
 
 USERADD_PACKAGES = "${PN}"
 GROUPADD_PARAM_${PN} = "--system weston-launch"
