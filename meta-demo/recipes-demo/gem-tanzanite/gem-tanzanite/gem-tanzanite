@@ -1,0 +1,10 @@
+#!/bin/bash
+
+export WAYLAND_DISPLAY=wayland-0
+export XDG_RUNTIME_DIR=/run/user/root/
+
+PROFILE="/tmp/gem-tanzanite-profile"
+rm -rf "${PROFILE}"
+cp -r /usr/share/gem-tanzanite/profile "${PROFILE}"
+
+/usr/bin/firefox --profile "${PROFILE}" "file:///usr/share/gem-tanzanite/html/index.html"

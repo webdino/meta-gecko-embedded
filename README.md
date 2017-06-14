@@ -19,3 +19,7 @@ meta-poky-jethro
 ----------------
 This layer is intented to upgrade GTK+ in Yocto-2.0 (Poky 14.0).
 It's confirmed only on Renesas Electronics's RZ/G1 series.
+
+meta-demo
+---------
+This layer contains some demo HTML contents.
