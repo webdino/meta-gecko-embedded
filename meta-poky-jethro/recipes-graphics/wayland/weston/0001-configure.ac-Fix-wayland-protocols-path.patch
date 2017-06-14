@@ -1,0 +1,12 @@
+diff -Nur weston-1.10.0-bak/configure.ac weston-1.10.0/configure.ac
+--- weston-1.10.0-bak/configure.ac	2016-02-17 05:31:30.000000000 +0900
++++ weston-1.10.0/configure.ac	2017-04-26 16:41:00.576564318 +0900
+@@ -182,7 +182,7 @@
+ PKG_CHECK_MODULES(COMPOSITOR, [$COMPOSITOR_MODULES])
+ 
+ PKG_CHECK_MODULES(WAYLAND_PROTOCOLS, [wayland-protocols >= 1.0],
+-		  [ac_wayland_protocols_pkgdatadir=`$PKG_CONFIG --variable=pkgdatadir wayland-protocols`])
++		  [ac_wayland_protocols_pkgdatadir=${WAYLAND_PROTOCOLS_SYSROOT_DIR}`$PKG_CONFIG --variable=pkgdatadir wayland-protocols`])
+ AC_SUBST(WAYLAND_PROTOCOLS_DATADIR, $ac_wayland_protocols_pkgdatadir)
+ 
+ AC_ARG_ENABLE(wayland-compositor, [  --enable-wayland-compositor],,
