@@ -1,3 +1,4 @@
+user_pref("browser.fullscreen.animate", false);
 user_pref("browser.startup.homepage", "file:///usr/local/share/gem-tanzanite/html/gem/index.html");
 user_pref("browser.shell.checkDefaultBrowser", false);
 user_pref("browser.shell.skipDefaultBrowserCheck", true);
