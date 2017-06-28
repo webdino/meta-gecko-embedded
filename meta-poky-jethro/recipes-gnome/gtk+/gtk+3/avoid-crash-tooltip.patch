@@ -1,0 +1,12 @@
+diff -Nur gtk+-3.20.9-bak/gtk/gtktooltip.c gtk+-3.20.9/gtk/gtktooltip.c
+--- gtk+-3.20.9-bak/gtk/gtktooltip.c	2016-08-04 23:34:04.000000000 +0900
++++ gtk+-3.20.9/gtk/gtktooltip.c	2017-06-28 17:58:13.618923333 +0900
+@@ -1105,6 +1105,8 @@
+ 
+       if (!GDK_IS_WINDOW (window))
+         return;
++      if (gdk_window_is_destroyed (window))
++        return;
+ 
+       device = gdk_seat_get_pointer (gdk_display_get_default_seat (display));
+ 
