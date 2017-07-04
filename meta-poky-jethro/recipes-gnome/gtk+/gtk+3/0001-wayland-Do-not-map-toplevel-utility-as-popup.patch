@@ -1,0 +1,40 @@
+From 63e05158ea032b6b39e5ec59f2044c72841fd8ea Mon Sep 17 00:00:00 2001
+From: Olivier Fourdan <ofourdan@redhat.com>
+Date: Tue, 2 May 2017 11:41:26 +0200
+Subject: [PATCH 1/3] wayland: Do not map toplevel utility as popup
+
+Applications can specify the type hint as utility even on toplevel
+windows.
+
+When that toplevel is also marked as a transient for another window,
+GDK Wayland backend would translate that as an xdg_popup which is not
+appropriate.
+
+While utility temp windows should remain mapped as subsurfaces (such as
+the ones used by treeviews), regular windows should not translate as
+neither a subsurface nor an xdg_popup.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=781945
+---
+ gdk/wayland/gdkwindow-wayland.c | 5 -----
+ 1 file changed, 5 deletions(-)
+
+diff --git a/gdk/wayland/gdkwindow-wayland.c b/gdk/wayland/gdkwindow-wayland.c
+index 6ac9c04c90..f6125abf9b 100644
+--- a/gdk/wayland/gdkwindow-wayland.c
++++ b/gdk/wayland/gdkwindow-wayland.c
+@@ -2246,11 +2246,6 @@ should_map_as_popup (GdkWindow *window)
+     case GDK_WINDOW_TYPE_HINT_COMBO:
+       return TRUE;
+ 
+-    case GDK_WINDOW_TYPE_HINT_UTILITY:
+-      if (GDK_WINDOW_TYPE (window) != GDK_WINDOW_TEMP)
+-        return TRUE;
+-      break;
+-
+     default:
+       break;
+     }
+-- 
+2.11.0
+

@@ -8,6 +8,8 @@ SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+-${PV}.tar
            file://0003-Add-disable-opengl-configure-option.patch \
            file://0004-configure.ac-Fix-wayland-protocols-path.patch \
            file://0001-Redo-focus-handling-in-treeview-once-more.patch \
+           file://0001-wayland-Do-not-map-toplevel-utility-as-popup.patch \
+           file://0002-wayland-check-parent-surface-for-subsurface.patch \
            file://avoid-crash-tooltip.patch \
           "
 SRC_URI[md5sum] = "cc76cac5e18c772c6784bf19a3dff08b"
