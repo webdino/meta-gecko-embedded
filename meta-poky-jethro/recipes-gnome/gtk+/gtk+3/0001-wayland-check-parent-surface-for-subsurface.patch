@@ -1,0 +1,38 @@
+From 0985dacd33f67c328c2aca08def78bddbecbf384 Mon Sep 17 00:00:00 2001
+From: Olivier Fourdan <ofourdan@redhat.com>
+Date: Tue, 16 May 2017 16:13:34 +0200
+Subject: [PATCH] wayland: check parent surface for subsurface
+
+When an event is received while a tooltip is showing, the GtkTooltip's
+event handling code can end up calling gdk_window_set_transient_for()
+from gtk_tooltip_set_last_window().
+
+The Wayland GDK backend will try to automatically create a subsurface
+in gdk_wayland_window_set_transient_for() but if the parent surface is
+gone meanwhile, this will will cause a crash when trying to create a
+subsurface from a parent with a null surface.
+
+Checking for the parent is not sufficient, we ought to check for the
+parent surface as well to avoid the crash.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=782283
+---
+ gdk/wayland/gdkwindow-wayland.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gdk/wayland/gdkwindow-wayland.c b/gdk/wayland/gdkwindow-wayland.c
+index 7a33771..3c10a0f 100644
+--- a/gdk/wayland/gdkwindow-wayland.c
++++ b/gdk/wayland/gdkwindow-wayland.c
+@@ -1325,7 +1325,7 @@ gdk_wayland_window_create_subsurface (GdkWindow *window)
+   if (impl->transient_for)
+     parent_impl = GDK_WINDOW_IMPL_WAYLAND (impl->transient_for->impl);
+ 
+-  if (parent_impl)
++  if (parent_impl && parent_impl->display_server.wl_surface)
+     {
+       display_wayland = GDK_WAYLAND_DISPLAY (gdk_window_get_display (window));
+       impl->display_server.wl_subsurface =
+-- 
+2.9.3
+
