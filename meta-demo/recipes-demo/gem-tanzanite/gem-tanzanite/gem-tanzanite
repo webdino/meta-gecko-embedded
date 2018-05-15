@@ -1,8 +1,12 @@
 #!/bin/sh
 
 export WAYLAND_DISPLAY=wayland-0
-export XDG_RUNTIME_DIR=/run/user/root/
-
+if [ -f /run/user/root/wayland-0.lock ]; then
+    export XDG_RUNTIME_DIR=/run/user/root/
+fi
+if [ -f /run/user/0/wayland-0.lock ]; then
+    export XDG_RUNTIME_DIR=/run/user/0/
+fi
 PROFILE="/tmp/gem-tanzanite-profile"
 rm -rf "${PROFILE}"
 cp -r /usr/share/gem-tanzanite/profile "${PROFILE}"
