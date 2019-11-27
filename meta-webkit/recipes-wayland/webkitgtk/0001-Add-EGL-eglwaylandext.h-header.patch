@@ -1,0 +1,24 @@
+From 90b88f030dede782e8c669b0bf5218e692080872 Mon Sep 17 00:00:00 2001
+From: Hiroshi Hatake <hatake@clear-code.com>
+Date: Wed, 27 Nov 2019 11:32:53 +0900
+Subject: [PATCH] Add EGL/eglwaylandext.h header
+
+---
+ Source/WebKit/UIProcess/gtk/WaylandCompositor.cpp | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Source/WebKit/UIProcess/gtk/WaylandCompositor.cpp b/Source/WebKit/UIProcess/gtk/WaylandCompositor.cpp
+index dc8d53ca..bed38f99 100644
+--- a/Source/WebKit/UIProcess/gtk/WaylandCompositor.cpp
++++ b/Source/WebKit/UIProcess/gtk/WaylandCompositor.cpp
+@@ -31,6 +31,7 @@
+ #include "WebKitWaylandServerProtocol.h"
+ #include <EGL/egl.h>
+ #include <EGL/eglext.h>
++#include <EGL/eglwaylandext.h>
+ #include <WebCore/GLContext.h>
+ #include <WebCore/PlatformDisplayWayland.h>
+ #include <WebCore/Region.h>
+-- 
+2.20.1
+
